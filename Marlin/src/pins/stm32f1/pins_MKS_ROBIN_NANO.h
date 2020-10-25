@@ -77,9 +77,100 @@
 #define E0_STEP_PIN                         PD6
 #define E0_DIR_PIN                          PD3
 
-#define E1_ENABLE_PIN                       PA3
-#define E1_STEP_PIN                         PA6
-#define E1_DIR_PIN                          PA1
+//#define E1_ENABLE_PIN                       PA3
+//#define E1_STEP_PIN                         PA6
+//#define E1_DIR_PIN                          PA1
+
+
+//
+//TMC UART RX / TX Pins Hardware/Software Serial
+//
+#if HAS_TMC220x
+  /**
+  * TMC2209 stepper drivers
+  * 
+  * Hardware serial communication ports.
+  * If undefined software serial is used according to the pins below
+  * 
+  * Four TMC2209 drivers can use the same HW/SW serial port with hardware configured addresses.
+  * Set the address using jumpers on pins MS1 and MS2.
+  * Address | MS1  | MS2
+  *       0 | LOW  | LOW
+  *       1 | HIGH | LOW
+  *       2 | LOW  | HIGH
+  *       3 | HIGH | HIGH
+  */
+
+  // Set Hardware Serial UART only für TCM 2209
+  //#define HARDWARE_SERIAL
+  // Set Software Serial UART for TMC 2208 / TMC 2209
+  #define SOFTWARE_SERIAL
+
+  #if ENABLED(HARDWARE_SERIAL)
+    //#define X_HARDWARE_SERIAL  Serial1
+    //#define Y_HARDWARE_SERIAL  Serial1
+    //#define Z_HARDWARE_SERIAL  Serial1
+    //#define Z2_HARDWARE_SERIAL Serial1
+    //#define E0_HARDWARE_SERIAL Serial1
+    //#define E1_HARDWARE_SERIAL Serial1
+
+    //Set *_SERIAL_TX_PIN and *_SERIAL_RX_PIN to match for all drivers on the same PIN to the same Slave Address.
+    // | = add jumper
+    // : = remove jumper
+    // M1 is always closest to 12/24v
+    // <- board power M1 M2 M3 -> endstops
+    // See: https://github.com/le3tspeak/Marlin-2.0.X-MKS-Robin-Nano/blob/MKS-Robin-Nano/docs/TMC2209HWSERIAL.jpg
+
+    #define X_SERIAL_TX_PIN                   PA3
+    #define X_SERIAL_RX_PIN                   PA3
+    
+    #define Y_SERIAL_TX_PIN                   PA3
+    #define Y_SERIAL_RX_PIN                   PA3
+    
+    #define Z_SERIAL_TX_PIN                   PA3
+    #define Z_SERIAL_RX_PIN                   PA3
+
+    #define E0_SERIAL_TX_PIN                  PA3
+    #define E0_SERIAL_RX_PIN                  PA3
+
+    #ifdef E1_DRIVER_TYPE
+      #define E1_SERIAL_TX_PIN                PA9
+      #define E1_SERIAL_RX_PIN                PA9
+    #endif
+
+    #ifdef Z2_DRIVER_TYPE
+      #define E1_SERIAL_TX_PIN                PA9
+      #define E1_SERIAL_RX_PIN                PA9
+    #endif
+
+  #elif ENABLED (SOFTWARE_SERIAL)
+    
+    #define X_SERIAL_TX_PIN                   PA3
+    #define X_SERIAL_RX_PIN                   PA3
+    
+    #define Y_SERIAL_TX_PIN                   PA3
+    #define Y_SERIAL_RX_PIN                   PA3
+    
+    #define Z_SERIAL_TX_PIN                   PA3
+    #define Z_SERIAL_RX_PIN                   PA3
+
+    #define E0_SERIAL_TX_PIN                  PA3
+    #define E0_SERIAL_RX_PIN                  PA3
+
+    #ifdef E1_DRIVER_TYPE
+      #define E1_SERIAL_TX_PIN                PA9
+      #define E1_SERIAL_RX_PIN                PA9
+    #endif
+
+    #ifdef Z2_DRIVER_TYPE
+      #define E1_SERIAL_TX_PIN                PA9
+      #define E1_SERIAL_RX_PIN                PA9
+    #endif
+
+    // Reduce baud rate to improve software serial reliability
+    #define TMC_BAUD_RATE 19200
+  #endif
+#endif
 
 //
 // Temperature Sensors
@@ -87,6 +178,10 @@
 #define TEMP_0_PIN                          PC1   // TH1
 #define TEMP_1_PIN                          PC2   // TH2
 #define TEMP_BED_PIN                        PC0   // TB1
+
+#if HOTENDS == 1 && TEMP_SENSOR_PROBE
+#define TEMP_PROBE_PIN   TEMP_1_PIN
+#endif
 
 //
 // Heaters / Fans
@@ -120,13 +215,6 @@
 // Misc. Functions
 //
 #if HAS_TFT_LVGL_UI
-  //#define MKSPWC
-  #ifdef MKSPWC
-    #define SUICIDE_PIN                     PB2   // Enable MKSPWC SUICIDE PIN
-    #define SUICIDE_PIN_INVERTING          false  // Enable MKSPWC PIN STATE
-    #define KILL_PIN                        PA2   // Enable MKSPWC DET PIN
-    #define KILL_PIN_STATE                  true  // Enable MKSPWC PIN STATE
-  #endif
 
   #define MT_DET_1_PIN                      PA4   // LVGL UI FILAMENT RUNOUT1 PIN
   #define MT_DET_2_PIN                      PE6   // LVGL UI FILAMENT RUNOUT2 PIN
@@ -142,9 +230,17 @@
   #define FIL_RUNOUT2_PIN                   PE6
 #endif
 
-#define SERVO0_PIN                          PA8   // Enable BLTOUCH support
+//#define MKSPWC
+  #ifdef MKSPWC
+    #define SUICIDE_PIN                     PB2   // Enable MKSPWC SUICIDE PIN
+    #define SUICIDE_PIN_INVERTING          false  // Enable MKSPWC PIN STATE
+    #define KILL_PIN                        PA2   // Enable MKSPWC DET PIN
+    #define KILL_PIN_STATE                  true  // Enable MKSPWC PIN STATE
+  #endif
 
-//#define LED_PIN                           PB2
+//#define SERVO0_PIN                        PA8   // Enable BLTOUCH support
+
+#define LED_PIN                             PA8   // Enable LED_PIN on BLTOUCH connector
 
 //
 // SD Card
@@ -171,7 +267,7 @@
 
 // Shared FSMC Configs
 #if HAS_FSMC_TFT
-  #define DOGLCD_MOSI                       -1    // Prevent auto-define by Conditionals_post.h
+  #define DOGLCD_MOSI                       -1    // prevent redefine Conditionals_post.h
   #define DOGLCD_SCK                        -1
 
   #define FSMC_CS_PIN                       PD7   // NE4
