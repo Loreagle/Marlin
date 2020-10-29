@@ -351,7 +351,7 @@ void MenuItem_static::draw(const uint8_t row, PGM_P const pstr, const uint8_t st
   tft_string.set(pstr, itemIndex, itemString);
   if (vstr)
     tft_string.add(vstr);
-  tft.add_text(tft_string.center(TFT_WIDTH), MENU_TEXT_Y_OFFSET, COLOR_YELLOW, tft_string);
+  tft.add_text(tft_string.center(TFT_WIDTH), MENU_TEXT_Y_OFFSET, COLOR_BLUE, tft_string);
 }
 
 // Draw a generic menu item with pre_char (if selected) and post_char
@@ -733,7 +733,7 @@ static void drawCurESelection() {
 static void drawMessage(const char *msg) {
   tft.canvas(X_MARGIN, TFT_HEIGHT - Y_MARGIN - 34, TFT_HEIGHT / 2, 34);
   tft.set_background(COLOR_BACKGROUND);
-  tft.add_text(0, 0, COLOR_YELLOW, msg);
+  tft.add_text(0, 0, COLOR_BLUE, msg);
 }
 
 static void drawAxisValue(AxisEnum axis) {
