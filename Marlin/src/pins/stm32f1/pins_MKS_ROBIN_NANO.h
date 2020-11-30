@@ -123,17 +123,17 @@
     // <- board power M1 M2 M3 -> endstops
     // See: https://github.com/le3tspeak/Marlin-2.0.X-MKS-Robin-Nano/blob/MKS-Robin-Nano/docs/TMC2209HWSERIAL.jpg
 
-    #define X_SERIAL_TX_PIN                   PA3
-    #define X_SERIAL_RX_PIN                   PA3
+    #define X_SERIAL_TX_PIN                   PA9
+    #define X_SERIAL_RX_PIN                   PA9
     
-    #define Y_SERIAL_TX_PIN                   PA3
-    #define Y_SERIAL_RX_PIN                   PA3
+    #define Y_SERIAL_TX_PIN                   PA9
+    #define Y_SERIAL_RX_PIN                   PA9
     
-    #define Z_SERIAL_TX_PIN                   PA3
-    #define Z_SERIAL_RX_PIN                   PA3
+    #define Z_SERIAL_TX_PIN                   PA9
+    #define Z_SERIAL_RX_PIN                   PA9
 
-    #define E0_SERIAL_TX_PIN                  PA3
-    #define E0_SERIAL_RX_PIN                  PA3
+    #define E0_SERIAL_TX_PIN                  PA9
+    #define E0_SERIAL_RX_PIN                  PA9
 
     #ifdef E1_DRIVER_TYPE
       #define E1_SERIAL_TX_PIN                PA9
@@ -147,17 +147,17 @@
 
   #elif ENABLED (SOFTWARE_SERIAL)
     
-    #define X_SERIAL_TX_PIN                   PA3
-    #define X_SERIAL_RX_PIN                   PA3
+    #define X_SERIAL_TX_PIN                   PA9
+    #define X_SERIAL_RX_PIN                   PA9
     
-    #define Y_SERIAL_TX_PIN                   PA3
-    #define Y_SERIAL_RX_PIN                   PA3
+    #define Y_SERIAL_TX_PIN                   PA9
+    #define Y_SERIAL_RX_PIN                   PA9
     
-    #define Z_SERIAL_TX_PIN                   PA3
-    #define Z_SERIAL_RX_PIN                   PA3
+    #define Z_SERIAL_TX_PIN                   PA9
+    #define Z_SERIAL_RX_PIN                   PA9
 
-    #define E0_SERIAL_TX_PIN                  PA3
-    #define E0_SERIAL_RX_PIN                  PA3
+    #define E0_SERIAL_TX_PIN                  PA9
+    #define E0_SERIAL_RX_PIN                  PA9
 
     #ifdef E1_DRIVER_TYPE
       #define E1_SERIAL_TX_PIN                PA9
@@ -226,16 +226,16 @@
   #define WIFI_IO1_PIN                      PC7   // MKS ESP WIFI IO1 PIN
   #define WIFI_RESET_PIN                    PA5   // MKS ESP WIFI RESET PIN
 #else
-  //#define POWER_LOSS_PIN                  PA2   // PW_DET
-  //#define PS_ON_PIN                       PB2   // PW_OFF
+  #define POWER_LOSS_PIN                    PA2   // PW_DET
+  #define PS_ON_PIN                         PB2   // PW_OFF
   #define FIL_RUNOUT_PIN                    PA4
   #define FIL_RUNOUT2_PIN                   PE6
 #endif
 
-//#define MKSPWC
+#define MKSPWC
   #ifdef MKSPWC
     #define SUICIDE_PIN                     PB2   // Enable MKSPWC SUICIDE PIN
-    #define SUICIDE_PIN_INVERTING          false  // Enable MKSPWC PIN STATE
+    #define SUICIDE_PIN_INVERTING           false // Enable MKSPWC PIN STATE
     #define KILL_PIN                        PA2   // Enable MKSPWC DET PIN
     #define KILL_PIN_STATE                  true  // Enable MKSPWC PIN STATE
   #endif
